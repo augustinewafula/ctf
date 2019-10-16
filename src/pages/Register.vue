@@ -70,6 +70,7 @@ export default {
             this.form.post('auth/register')
             .then((response)=>{ 
                 localStorage.setItem('token', response.data.token)
+                localStorage.setItem('email', this.form.email)
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
                 this.isLoading = false
                 this.$router.push({path: '/dashboard'})

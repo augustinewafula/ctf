@@ -7,6 +7,7 @@
           <vue-good-table
           :columns="columns"
           :rows="rows"
+          row-style-class="selected"
           theme="nocturnal"
           :sort-options="{
             enabled: true,
@@ -85,6 +86,9 @@
             this.isRefreshing = false
           })
       },
+      rowStyleClassFn(row) {
+        return row.points > -1 ? 'green' : 'red';
+      },
       refreshUsers () {
         console.log('refreshing...')
         this.isRefreshing = true
@@ -128,6 +132,10 @@
   margin: 0;
   background-color: rgba(0,0,0,0.34);
   overflow: hidden;
+}
+
+.selected {
+  background-color: rgb(0, 1, 10)
 }
 
 .bar-horizontal {
