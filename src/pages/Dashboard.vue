@@ -3,15 +3,14 @@
     <div class="row">
       <div class="col-md-8 col-sm-12">
         <card class="card" :header-classes="{'text-right': isRTL}">
-          <a href="#" @click.prevent="refreshArbs()"><i class="tim-icons icon-refresh-02" :class="refreshingAnimation" style="font-size: 25px; margin-bottom: 10px"></i></a>          
+          <a href="#" @click.prevent="refreshUsers()"><i class="tim-icons icon-refresh-02" :class="refreshingAnimation" style="font-size: 25px; margin-bottom: 10px"></i></a>          
           <vue-good-table
           :columns="columns"
           :rows="rows"
           theme="nocturnal"
-          @on-row-click="onRowClick"
           :sort-options="{
             enabled: true,
-            initialSortBy: {field: 'arb_percent', type: 'desc'}
+            initialSortBy: {field: 'points', type: 'desc'}
           }"
           :search-options="{
             enabled: true
@@ -25,55 +24,12 @@
                 <div class="bar-horizontal"></div>
               </div>
               <span v-show="!isLoading">
-                There are no arbs currently. Check back later 😉
+                There are no users
               </span>
             </div>
           </vue-good-table>
         </card>
       </div>
-      <div class="col-md-4 col-sm-12">
-        <card class="d-none d-md-block card game-info fixed-content">
-          <h3 slot="header" class="card-title">Game Info</h3>
-          <div v-show="game_info_has_data">
-            <h4 style="text-transform: none"><span style="margin-left: 0">{{ game_info.home_team }}</span> Vs	<span>{{ game_info.away_team }}</span></h4>
-            <h5>Kick off: <span>{{ game_info.kick_off | formatDate }}</span></h5>
-            <h5>Player name: <span>{{ game_info.player_name }}</span></h5>
-            <div class="row">
-              <div class="col-md-6">
-                <h5 class="first-to-upper">{{ game_info.yes_bookie }} (Yes) : <span>{{ game_info.yes_odd }}</span></h5>            
-              </div>
-              <div class="col-md-6">
-                <h5 class="first-to-upper">{{ game_info.no_bookie }} (No) : <span>{{ game_info.no_odd }}</span></h5>
-              </div>
-            </div> <br>
-            <h5>Arb Percentage: <span>{{ game_info.arb_percentage }}</span>%</h5>
-          </div>                            
-          <p v-show="!game_info_has_data">Click a match on the table to view more info here</p>
-
-        </card>        
-      </div>
-      <modal name="game-info-dialog"
-      :width="330"
-      >
-        <center>          
-          <h3 slot="header" class="card-title">Game Info</h3>
-          <div v-show="game_info_has_data">
-            <h4 style="text-transform: none"><span style="margin-left: 0">{{ game_info.home_team }}</span> Vs	<span>{{ game_info.away_team }}</span></h4>
-            <h5>Kick off: <span>{{ game_info.kick_off | formatDate }}</span></h5>
-            <h5>Player name: <span>{{ game_info.player_name }}</span></h5>
-            <div class="row">
-              <div class="col-md-6">
-                <h5 class="first-to-upper">{{ game_info.yes_bookie }} (Yes) : <span>{{ game_info.yes_odd }}</span></h5>            
-              </div>
-              <div class="col-md-6">
-                <h5 class="first-to-upper">{{ game_info.no_bookie }} (No) : <span>{{ game_info.no_odd }}</span></h5>
-              </div>
-            </div> <br>
-            <h5>Arb Percentage: <span>{{ game_info.arb_percentage }}</span>%</h5>
-          </div>                            
-          <p v-show="!game_info_has_data">Click a match on the table to view more info here</p>
-        </center>
-      </modal>
     </div>
   </div>
 </template>
@@ -88,37 +44,18 @@
         isLoading : true,
         isRefreshing : false,
         refreshingAnimation : '',
-        game_info_has_data : false,
-        game_info : {
-          home_team : '',
-          away_team : '',
-          player_name : '',
-          kick_off : '',
-          yes_odd : '',
-          no_odd : '',
-          yes_bookie : '',
-          no_bookie : '',
-          arb_percentage : ''
-        },
         columns: [
         {
-          label: 'Home Team',
-          field: 'home_team',
+          label: 'Name',
+          field: 'name',
         },
         {
-          label: 'Away Team',
-          field: 'away_team',
+          label: 'Email',
+          field: 'email',
         },
         {
-          label: 'Start Time',
-          field: 'start_time',
-          type: 'date',
-          dateInputFormat: 'YYYYMMDDHHmmss', // expects 2018-03-16
-          dateOutputFormat: 'MM/DD/YYYY HH:mm', // outputs Mar 16th 2018
-        },
-        {
-          label: '%',
-          field: 'arb_percent',
+          label: 'Points',
+          field: 'ponits',
           type: 'number',
         },
       ],
@@ -134,9 +71,9 @@
       }
     },
     methods: {
-      getArbs () {
+      getUsers () {
         // Make a request for rows
-        axios.get('/arbs')
+        axios.get('/users')
           .then((response)=>{
             // handle success
             this.rows = response.data
@@ -148,38 +85,12 @@
             this.isRefreshing = false
           })
       },
-      refreshArbs () {
+      refreshUsers () {
         console.log('refreshing...')
         this.isRefreshing = true
-        this.getArbs ()
+        this.getUsers ()
 
       },
-      onRowClick(params) {
-        this.game_info.home_team = params.row.home_team
-        this.game_info.away_team = params.row.away_team
-        this.game_info.player_name = params.row.player_name
-        this.game_info.yes_odd = params.row.yes_odd
-        this.game_info.no_odd = params.row.no_odd
-        this.game_info.yes_bookie = params.row.yes_bookie
-        this.game_info.no_bookie = params.row.no_bookie
-        this.game_info.arb_percentage = params.row.arb_percent
-        this.game_info.kick_off = params.row.start_time
-
-        this.game_info_has_data = true
-        if (window.innerWidth < 768) {
-          this.$modal.show('game-info-dialog');
-        } 
-        // params.row - row object 
-        // params.pageIndex - index of this row on the current page.
-        // params.selected - if selection is enabled this argument 
-        // indicates selected or not
-        // params.event - click event
-      }
-    },
-    filters: {
-      formatDate: function (value) {
-        return value ? moment(value, "YYYYMMDDHHmmss").format('MMMM Do YYYY, h:mm a') : ''
-      }
     },
     watch : {
       isRefreshing(){
@@ -199,7 +110,7 @@
         this.i18n.locale = 'ar';
         this.$rtl.enableRTL();
       }
-      this.getArbs()
+      this.getUsers()
     },
     beforeDestroy() {
       if (this.$rtl.isRTL) {
