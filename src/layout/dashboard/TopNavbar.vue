@@ -100,18 +100,18 @@
         this.showMenu = !this.showMenu;
       },
       logout() {
-        var token = localStorage.token
-        axios.post('auth/logout', {
-          token: this.token,
-        })
-        .then(function (response) {
-          console.log(response);
+        // var token = localStorage.token
+        // axios.post('auth/logout', {
+        //   token: this.token,
+        // })
+        // .then(function (response) {
+        //   console.log(response);
           localStorage.removeItem('token')
           this.$router.push({path: '/login'})
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        // })
+        // .catch(function (error) {
+        //   console.log(error);
+        // });
         
       }
     }
