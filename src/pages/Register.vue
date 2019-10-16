@@ -2,25 +2,29 @@
   <div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
-				<div class="d-flex justify-content-center">
+				<div class="d-flex justify-content-center" style="margin-bottom: 50px">
 					<div class="brand_logo_container">
 						<img src="img/icons/android-icon-192x192.png" width="90" class="brand_logo" alt="Logo">
 					</div>
-				</div>  
-                <base-alert v-show="form_has_error" type="info">
-                    <span>{{error_message}}</span>
-                </base-alert>                                
+				</div>                               
 				<div class="d-flex justify-content-center form_container">                    
 					<form v-on:submit.prevent="onSubmit">
 						<div class="input-group mb-6">
-							<input type="text" name="" v-model="email" class="form-control input_user" value="" placeholder="email" required>
-						</div>
+							<input type="text" name="" v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control input_user" value="" placeholder="Full name" required>
+                            <has-error :form="form" field="name"></has-error>
+                        </div>
+						<div class="input-group mb-6">
+							<input type="text" name="" v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control input_user" value="" placeholder="email" required>
+                            <has-error :form="form" field="email"></has-error>
+                        </div>
 						<div class="input-group mb-3">
-							<input type="password" name="" v-model="password" class="form-control input_pass" value="" placeholder="password" required>
-						</div>
+							<input type="password" name="" v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control input_pass" value="" placeholder="password" required>
+						    <has-error :form="form" field="password"></has-error>
+                        </div>
 						<div class="input-group mb-3">
-							<input type="confirm_password" name="" v-model="confirm_password" class="form-control input_pass" value="" placeholder="confirm password" required>
-						</div>
+							<input type="password" name="" v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control input_pass" value="" placeholder="confirm password" required>
+						    <has-error :form="form" field="password_confirmation"></has-error>
+                        </div>
                         <div class="input-group mb-6">                            
                             <button type="submit" style="margin-top: 20px" name="button" class="btn login_btn">
                                 <div v-show="isLoading" class="ld ld-ring ld-spin"></div>
@@ -47,40 +51,32 @@ export default {
       BaseAlert
     },
     data: () => ({  
-        form_data: new Form({
+        form: new Form({
+            name:'',
             email: '',
             password: '',
-            confirm_password: ''
+            password_confirmation: ''
         }),
         type: ["", "info", "success", "warning", "danger"],
-        form_has_error : false,
-        error_message : '',
         isLoading : false,
     }),
     methods: {
         onSubmit () {
-            if(!(this.email && this.password)){
+            if(!(this.form.email && this.form.password)){
                 console.log('Fill all the details')
                 return
             }
             this.isLoading = true
-            axios.get('/login', {
-                auth : {
-                    email: this.email,
-                    password: this.password
-                }
-            })
-            .then((response)=>{
-                this.isLoading = false
+            this.form.post('auth/register')
+            .then((response)=>{ 
                 localStorage.setItem('token', response.data.token)
-                axios.defaults.headers.common['x-access-token'] = response.data.token
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
+                this.isLoading = false
                 this.$router.push({path: '/dashboard'})
             })
-            .catch((error)=>{
+            .catch((error)=>{          
                 this.isLoading = false
-                this.error_message = error.response.data
-                this.form_has_error = true
-            });
+            })   
         }
     },
 };
@@ -88,7 +84,7 @@ export default {
 
 <style scoped>
 .user_card {
-    height: 380px;
+    height: 445px;
     width: 360px;
     margin-top: 100px;
     margin-bottom: auto;

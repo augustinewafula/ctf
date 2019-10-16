@@ -37,7 +37,7 @@ class AuthController extends Controller
         $this->validate($request,[
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
 
         $user = new User();
@@ -46,7 +46,9 @@ class AuthController extends Controller
         $user->password = Hash::make($request->password);
 
         if($user->save()){
-            return response('created', 201);
+            $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+            $response = ['token' => $token];
+            return response($response, 201);
         }else{
             return response("An error occured", 422);
         }
