@@ -1,6 +1,7 @@
 import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 // GeneralViews
 import Login from "@/pages/Login.vue";
+import Register from "@/pages/Register.vue";
 
 // Admin pages
 const Dashboard = () => import(/* webpackChunkName: "dashboard" */"@/pages/Dashboard.vue");
@@ -26,6 +27,12 @@ const routes = [
         }
       }
     ]
+  },
+  { path: "/register", 
+    component: Register ,
+    meta: {
+      requiresAuth: false
+    }
   },
   { path: "*", 
     component: Login ,

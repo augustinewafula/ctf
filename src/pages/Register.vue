@@ -13,10 +13,13 @@
 				<div class="d-flex justify-content-center form_container">                    
 					<form v-on:submit.prevent="onSubmit">
 						<div class="input-group mb-6">
-							<input type="text" name="" v-model="form.email" class="form-control input_user" value="" placeholder="email" required>
+							<input type="text" name="" v-model="email" class="form-control input_user" value="" placeholder="email" required>
 						</div>
 						<div class="input-group mb-3">
-							<input type="password" name="" v-model="form.password" class="form-control input_pass" value="" placeholder="password" required>
+							<input type="password" name="" v-model="password" class="form-control input_pass" value="" placeholder="password" required>
+						</div>
+						<div class="input-group mb-3">
+							<input type="confirm_password" name="" v-model="confirm_password" class="form-control input_pass" value="" placeholder="confirm password" required>
 						</div>
                         <div class="input-group mb-6">                            
                             <button type="submit" style="margin-top: 20px" name="button" class="btn login_btn">
@@ -26,7 +29,7 @@
                         </div>
 					</form>
 				</div>
-                <p>Don't have an account? <a href="/register">Create one</a></p>
+                <p>Already have an account? <a href="/login">login</a></p>
 			</div>
 		</div>
 	</div>
@@ -47,6 +50,7 @@ export default {
         form_data: new Form({
             email: '',
             password: '',
+            confirm_password: ''
         }),
         type: ["", "info", "success", "warning", "danger"],
         form_has_error : false,
