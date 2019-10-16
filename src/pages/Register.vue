@@ -28,7 +28,7 @@
                         <div class="input-group mb-6">                            
                             <button type="submit" style="margin-top: 20px" name="button" class="btn login_btn">
                                 <div v-show="isLoading" class="ld ld-ring ld-spin"></div>
-                                <span v-show="!isLoading">Login</span>
+                                <span v-show="!isLoading">Register</span>
                             </button>
                         </div>
 					</form>
