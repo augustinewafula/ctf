@@ -56,8 +56,12 @@
 <script>
   import { CollapseTransition } from 'vue2-transitions';
   import Modal from '@/components/Modal';
+  import axios from 'axios'
 
   export default {
+    data: () => ({  
+      token:''
+    }),
     components: {
       CollapseTransition,
       Modal
@@ -99,8 +103,19 @@
         this.showMenu = !this.showMenu;
       },
       logout() {
-        localStorage.removeItem('token')
-        this.$router.push({path: '/login'})
+        this.token = localStorage.token
+        axios.post('auth/logout', {
+          token: this.token,
+        })
+        .then(function (response) {
+          console.log(response);
+          localStorage.removeItem('token')
+          this.$router.push({path: '/login'})
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        
       }
     }
   };
