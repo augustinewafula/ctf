@@ -55,7 +55,7 @@
         },
         {
           label: 'Points',
-          field: 'ponits',
+          field: 'points',
           type: 'number',
         },
       ],
