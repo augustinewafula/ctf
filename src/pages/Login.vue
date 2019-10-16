@@ -12,13 +12,13 @@
                 </base-alert>                                
 				<div class="d-flex justify-content-center form_container">                    
 					<form v-on:submit.prevent="onSubmit">
-						<div class="input-group mb-3">
+						<div class="input-group mb-6">
 							<input type="text" name="" v-model="email" class="form-control input_user" value="" placeholder="email" required>
 						</div>
-						<div class="input-group mb-2">
+						<div class="input-group mb-3">
 							<input type="password" name="" v-model="password" class="form-control input_pass" value="" placeholder="password" required>
 						</div>
-                        <div class="input-group mb-2">                            
+                        <div class="input-group mb-6">                            
                             <button type="submit" style="margin-top: 20px" name="button" class="btn login_btn">
                                 <div v-show="isLoading" class="ld ld-ring ld-spin"></div>
                                 <span v-show="!isLoading">Login</span>
@@ -26,12 +26,7 @@
                         </div>
 					</form>
 				</div>
-				<!-- <div class="d-flex justify-content-center mt-3 login_container">
-					<button type="button" @click="submit" name="button" class="btn login_btn">
-                        <div v-show="isLoading" class="ld ld-ring ld-spin"></div>
-                        <span v-show="!isLoading">Login</span>
-                    </button>
-				</div> -->
+                <p>Don't have an account? <a href="/register">Create one</a></p>
 			</div>
 		</div>
 	</div>
