@@ -7,7 +7,7 @@
           <vue-good-table
           :columns="columns"
           :rows="rows"
-          row-style-class="selected"
+          :row-style-class="rowStyleClassFn"
           theme="nocturnal"
           :sort-options="{
             enabled: true,
@@ -87,7 +87,7 @@
           })
       },
       rowStyleClassFn(row) {
-        return row.points > -1 ? 'green' : 'red';
+        return row.email == localStorage.email ? 'selected' : 'nothing';
       },
       refreshUsers () {
         console.log('refreshing...')
@@ -135,7 +135,7 @@
 }
 
 .selected {
-  background-color: rgb(0, 1, 10)
+  background-color: rgb(16, 24, 20)
 }
 
 .bar-horizontal {
