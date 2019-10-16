@@ -10,7 +10,7 @@ module.exports = {
     ]
   },
   pwa: {
-    name: 'Goalscorer Arb',
+    name: 'CTF',
     themeColor: '#344675',
     msTileColor: '#344675',
     appleMobileWebAppCapable: 'yes',

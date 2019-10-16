@@ -46,7 +46,7 @@
     props: {
       title: {
         type: String,
-        default: "Goalscorer Arb"
+        default: "CTF"
       },
       backgroundColor: {
         type: String,

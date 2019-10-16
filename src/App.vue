@@ -6,7 +6,7 @@
         <div id="update-banner" v-show="showNofication" data-notify="container" role="alert" data-notify-position="top-center" class="alert open alert-with-icon bottom right alert-info" style="bottom: 20px;">
           <button type="button" @click="hideNotification()" aria-hidden="true" data-notify="dismiss" class="close col-xs-1"><i class="tim-icons icon-simple-remove"></i></button>
           <span data-notify="icon" class="alert-icon tim-icons icon-bell-55"></span>
-            <div data-notify="message"><!----><!----><div>A new version of Goalscorer Arb is available</div> <div><button @click="reloadPage()" id="update-button" class="btn btn-sm btn-primary">Reload</button></div></div>
+            <div data-notify="message"><!----><!----><div>A new version of CTF is available</div> <div><button @click="reloadPage()" id="update-button" class="btn btn-sm btn-primary">Reload</button></div></div>
         </div>
       </span>
     </div>

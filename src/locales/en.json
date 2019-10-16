@@ -111,8 +111,8 @@
     ]
   },
   "sidebar": {
-    "title": "Goalscorer Arb",
-    "shortTitle": "CT",
+    "title": "CTF",
+    "shortTitle": "CTF",
     "dashboard": "dashboard",
     "icons": "Icons",
     "maps": "Maps",
