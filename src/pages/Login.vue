@@ -13,10 +13,10 @@
 				<div class="d-flex justify-content-center form_container">                    
 					<form v-on:submit.prevent="onSubmit">
 						<div class="input-group mb-6">
-							<input type="text" name="" v-model="form.email" class="form-control input_user" value="" placeholder="email" required>
+							<input type="text" name="" v-model="form_data.email" class="form-control input_user" value="" placeholder="email" required>
 						</div>
 						<div class="input-group mb-3">
-							<input type="password" name="" v-model="form.password" class="form-control input_pass" value="" placeholder="password" required>
+							<input type="password" name="" v-model="form_data.password" class="form-control input_pass" value="" placeholder="password" required>
 						</div>
                         <div class="input-group mb-6">                            
                             <button type="submit" style="margin-top: 20px" name="button" class="btn login_btn">
@@ -55,28 +55,23 @@ export default {
     }),
     methods: {
         onSubmit () {
-            if(!(this.email && this.password)){
+            if(!(this.form_data.email && this.form_data.password)){
                 console.log('Fill all the details')
                 return
             }
             this.isLoading = true
-            axios.get('/login', {
-                auth : {
-                    email: this.email,
-                    password: this.password
-                }
-            })
-            .then((response)=>{
-                this.isLoading = false
+            this.form_data.post('auth/login')
+            .then((response)=>{ 
                 localStorage.setItem('token', response.data.token)
-                axios.defaults.headers.common['x-access-token'] = response.data.token
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
+                this.isLoading = false
                 this.$router.push({path: '/dashboard'})
             })
-            .catch((error)=>{
+            .catch((error)=>{          
                 this.isLoading = false
                 this.error_message = error.response.data
                 this.form_has_error = true
-            });
+            })   
         }
     },
 };
