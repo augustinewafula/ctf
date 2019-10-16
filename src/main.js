@@ -22,7 +22,7 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-axios.defaults.headers.common['x-access-token'] = localStorage.token
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.token
 // axios.defaults.baseURL = window.location.origin + '/backend/public/api'
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = 'https://ctf.com'

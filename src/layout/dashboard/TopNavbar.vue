@@ -59,9 +59,6 @@
   import axios from 'axios'
 
   export default {
-    data: () => ({  
-      token:''
-    }),
     components: {
       CollapseTransition,
       Modal
@@ -103,7 +100,7 @@
         this.showMenu = !this.showMenu;
       },
       logout() {
-        this.token = localStorage.token
+        var token = localStorage.token
         axios.post('auth/logout', {
           token: this.token,
         })

@@ -2,7 +2,7 @@
   <div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
-				<div class="d-flex justify-content-center">
+				<div class="d-flex justify-content-center" style="margin-bottom: 50px">
 					<div class="brand_logo_container">
 						<img src="img/icons/android-icon-192x192.png" width="90" class="brand_logo" alt="Logo">
 					</div>
@@ -78,7 +78,7 @@ export default {
 
 <style scoped>
 .user_card {
-    height: 400px;
+    height: 350px;
     width: 360px;
     margin-top: 100px;
     margin-bottom: auto;
