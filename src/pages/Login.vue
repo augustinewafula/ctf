@@ -13,10 +13,12 @@
 				<div class="d-flex justify-content-center form_container">                    
 					<form v-on:submit.prevent="onSubmit">
 						<div class="input-group mb-6">
-							<input type="text" name="" v-model="form_data.email" class="form-control input_user" value="" placeholder="email" required>
+							<input type="text" name="" v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control input_user" value="" placeholder="email" required>
+                            <has-error :form="form" field="email"></has-error>
 						</div>
 						<div class="input-group mb-3">
-							<input type="password" name="" v-model="form_data.password" class="form-control input_pass" value="" placeholder="password" required>
+							<input type="password" name="" v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control input_pass" value="" placeholder="password" required>
+                            <has-error :form="form" field="password"></has-error>
 						</div>
                         <div class="input-group mb-6">                            
                             <button type="submit" style="margin-top: 20px" name="button" class="btn login_btn">
@@ -44,23 +46,22 @@ export default {
       BaseAlert
     },
     data: () => ({  
-        form_data: new Form({
+        form: new Form({
             email: '',
             password: '',
         }),
         type: ["", "info", "success", "warning", "danger"],
-        form_has_error : false,
         error_message : '',
         isLoading : false,
     }),
     methods: {
         onSubmit () {
-            if(!(this.form_data.email && this.form_data.password)){
+            if(!(this.form.email && this.form.password)){
                 console.log('Fill all the details')
                 return
             }
             this.isLoading = true
-            this.form_data.post('auth/login')
+            this.form.post('auth/login')
             .then((response)=>{ 
                 localStorage.setItem('token', response.data.token)
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
@@ -69,8 +70,6 @@ export default {
             })
             .catch((error)=>{          
                 this.isLoading = false
-                this.error_message = error.response.data
-                this.form_has_error = true
             })   
         }
     },
@@ -79,7 +78,7 @@ export default {
 
 <style scoped>
 .user_card {
-    height: 380px;
+    height: 400px;
     width: 360px;
     margin-top: 100px;
     margin-bottom: auto;
