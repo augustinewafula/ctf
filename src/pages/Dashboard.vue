@@ -85,7 +85,8 @@
         isRefreshing : false,
         refreshingAnimation : '',
         form: new Form({
-            flag: ''
+            flag: '',
+            email: ''
         }),
         columns: [
         {
@@ -139,6 +140,7 @@
       },
       submitFlag(){
         if(this.form.flag){
+          this.form.email = localStorage.email
           this.buttonLoading = true
           this.form.post('flag')
           .then((response)=>{ 

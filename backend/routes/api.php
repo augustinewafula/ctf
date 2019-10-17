@@ -26,4 +26,5 @@ Route::prefix('auth')->group(function () {
 });
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('users', 'UserController@index');
+    Route::post('flag', 'FlagController@store');
 });
