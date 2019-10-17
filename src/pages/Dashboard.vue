@@ -46,15 +46,15 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form v-on:submit.prevent="onSubmit">
+                  <form v-on:submit.prevent="submitFlag">
                     <div class="input-group mb-6">
                       <input type="text" name="" v-model="form.flag" :class="{ 'is-invalid': form.errors.has('flag') }" class="form-control input_user" value="" placeholder="flag" required>
                                     <has-error :form="form" field="flag"></has-error>
                     </div>
                     <div class="input-group mb-6">                            
                         <button type="submit" style="margin-top: 20px" name="button" class="btn login_btn">
-                            <div v-show="isLoading" class="ld ld-ring ld-spin"></div>
-                            <span v-show="!isLoading">Submit</span>
+                            <div v-show="buttonLoading" class="ld ld-ring ld-spin"></div>
+                            <span v-show="!buttonLoading">Submit</span>
                         </button>
                     </div>
                   </form>
@@ -80,7 +80,7 @@
     data() {
       return {
         showSubmitFlagModal: false,
-        isLoading : false,
+        buttonLoading : false,
         isLoading : true,
         isRefreshing : false,
         refreshingAnimation : '',
@@ -137,6 +137,18 @@
         this.getUsers ()
 
       },
+      submitFlag(){
+        if(this.form.flag){
+          this.buttonLoading = true
+          this.form.post('flag')
+          .then((response)=>{ 
+              this.buttonLoading = false
+          })
+          .catch((error)=>{          
+              this.buttonLoading = false
+          })   
+        }
+      }
     },
     watch : {
       isRefreshing(){
