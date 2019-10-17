@@ -141,6 +141,7 @@
       },
       profile(){
         this.showProfileModal = true
+        this.getCurrentUserInfo()
       },
       capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
