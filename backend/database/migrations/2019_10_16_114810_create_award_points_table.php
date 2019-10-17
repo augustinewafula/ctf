@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFlagsTable extends Migration
+class CreateAwardPointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateFlagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('flags', function (Blueprint $table) {
+        Schema::create('award_points', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('flag');
-            // $table->foreign('flag')->references('id')->on('award_points');
-            $table->integer('user_id');
-            // $table->foreign('user_id')->references('id')->on('users');
+            $table->string('flag');
+            $table->string('points');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateFlagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flags');
+        Schema::dropIfExists('award_points');
     }
 }
