@@ -2,6 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-8 col-sm-12">
+        <button class="btn btn-primary mb-3" @click="showSubmitFlagModal = true">Submit flag</button>
         <card class="card" :header-classes="{'text-right': isRTL}">
           <a href="#" @click.prevent="refreshUsers()"><i class="tim-icons icon-refresh-02" :class="refreshingAnimation" style="font-size: 25px; margin-bottom: 10px"></i></a>          
           <vue-good-table
@@ -32,8 +33,44 @@
         </card>
       </div>
     </div>
+    <div v-if="showSubmitFlagModal">
+      <transition name="modal">
+        <div class="modal-mask">
+          <div class="modal-wrapper">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Submit Flag</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" @click="showSubmitFlagModal = false">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form v-on:submit.prevent="onSubmit">
+                    <div class="input-group mb-6">
+                      <input type="text" name="" v-model="form.flag" :class="{ 'is-invalid': form.errors.has('flag') }" class="form-control input_user" value="" placeholder="flag" required>
+                                    <has-error :form="form" field="flag"></has-error>
+                    </div>
+                    <div class="input-group mb-6">                            
+                        <button type="submit" style="margin-top: 20px" name="button" class="btn login_btn">
+                            <div v-show="isLoading" class="ld ld-ring ld-spin"></div>
+                            <span v-show="!isLoading">Submit</span>
+                        </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
+<style>
+@import 'https://loading.io/css/loading.css';
+@import 'https://loading.io/css/loading-btn.css';    
+</style>
 <script>
   import config from '@/config';  
   import axios from 'axios';
@@ -42,9 +79,14 @@
   export default {
     data() {
       return {
+        showSubmitFlagModal: false,
+        isLoading : false,
         isLoading : true,
         isRefreshing : false,
         refreshingAnimation : '',
+        form: new Form({
+            flag: ''
+        }),
         columns: [
         {
           label: 'Name',
