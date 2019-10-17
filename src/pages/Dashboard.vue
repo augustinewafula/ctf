@@ -167,6 +167,12 @@
   };
 </script>
 <style>
+.modal-content{
+  background-color: #27293D
+}
+.modal-content .modal-header .modal-title{
+  color : azure
+}
 .modal-mask {
   position: fixed;
   z-index: 9998;
