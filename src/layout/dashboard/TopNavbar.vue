@@ -42,7 +42,10 @@
                 <p class="d-lg-none">
                   Log out
                 </p>
-              </a>
+              </a>              
+              <li class="nav-link">
+                <a href="#" @click="profile" class="nav-item dropdown-item">Profile</a>
+              </li>
               <li class="nav-link">
                 <a href="#" @click.prevent="logout()" class="nav-item dropdown-item">Log out</a>
               </li>
@@ -50,6 +53,58 @@
           </ul>
         </div>
       </collapse-transition>
+    </div>
+    <div v-if="showProfileModal">
+      <transition name="modal">
+        <div class="modal-mask">
+          <div class="modal-wrapper">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Your Profile</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" @click="showProfileModal = false">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <card type="user">
+                    <p class="card-text">
+                    </p>
+                    <div class="author">
+                      <div class="block block-one"></div>
+                      <div class="block block-two"></div>
+                      <div class="block block-three"></div>
+                      <div class="block block-four"></div>
+                      <a href="#">
+                        <img class="avatar" src="img/anime3.png" alt="...">
+                        <h5 class="title">{{user.fullName}}</h5>
+                      </a>
+                      <p class="description">
+                        {{user.title}}
+                      </p>
+                    </div>
+                    <p></p>
+                    <p class="card-description">
+                      {{user.description}}
+                    </p>
+                    <div slot="footer" class="button-container">
+                      <base-button icon round class="btn-facebook">
+                        <i class="fab fa-facebook"></i>
+                      </base-button>
+                      <base-button icon round class="btn-twitter">
+                        <i class="fab fa-twitter"></i>
+                      </base-button>
+                      <base-button icon round class="btn-google">
+                        <i class="fab fa-google-plus"></i>
+                      </base-button>
+                    </div>
+                  </card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
     </div>
   </nav>
 </template>
@@ -59,6 +114,14 @@
   import axios from 'axios'
 
   export default {
+    props: {
+      user: {
+        type: Object,
+        default: () => {
+          return {};
+        }
+      }
+    },
     components: {
       CollapseTransition,
       Modal
@@ -74,6 +137,7 @@
     },
     data() {
       return {
+        showProfileModal: false,
         activeNotifications: false,
         showMenu: false,
         searchModalVisible: false,
@@ -81,6 +145,9 @@
       };
     },
     methods: {
+      profile(){
+        this.showProfileModal = true
+      },
       capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
       },
