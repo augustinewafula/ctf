@@ -65,6 +65,16 @@
         </div>
       </transition>
     </div>
+    <notifications></notifications>
+    <div class="notifications">
+      <span mode="in-out" classs="col-md-10">
+        <div id="update-banner" v-show="showNofication" data-notify="container" role="alert" data-notify-position="top-center" class="alert open alert-with-icon bottom right alert-info" style="bottom: 20px;">
+          <button type="button" style="padding-left: 20px" @click="hideNotification()" aria-hidden="true" data-notify="dismiss" class="close col-xs-1"><i class="tim-icons icon-simple-remove"></i></button>
+          <span data-notify="icon" class="alert-icon tim-icons icon-bell-55"></span>
+            <div data-notify="message"><!----><!----><div>{{this.notificationMessage}}</div> <div></div></div>
+        </div>
+      </span>
+    </div>
   </div>
 </template>
 <style>
@@ -84,6 +94,8 @@
         isLoading : true,
         isRefreshing : false,
         refreshingAnimation : '',
+        showNofication : false,
+        notificationMessage : '',
         form: new Form({
             flag: '',
             email: ''
@@ -144,12 +156,19 @@
           this.buttonLoading = true
           this.form.post('flag')
           .then((response)=>{ 
-              this.buttonLoading = false
+            console.log(response.data.message)
+            this.showNoficationLayout(response.data.message)
+            this.buttonLoading = false
+            this.showSubmitFlagModal = false
           })
           .catch((error)=>{          
               this.buttonLoading = false
           })   
         }
+      },
+      showNoficationLayout(message){
+        this.showNofication = true;
+        this.notificationMessage = message
       }
     },
     watch : {
