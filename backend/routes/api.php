@@ -20,7 +20,7 @@ Route::prefix('auth')->group(function () {
     Route::get('refresh', 'AuthController@refresh');
 
     Route::group(['middleware' => 'auth:api'], function(){
-        Route::get('user', 'AuthController@user');
+        Route::get('user/{email}', 'AuthController@user');
         Route::post('logout', 'AuthController@logout');
     });
 });

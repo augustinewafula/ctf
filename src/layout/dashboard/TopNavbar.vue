@@ -77,27 +77,16 @@
                       <div class="block block-four"></div>
                       <a href="#">
                         <img class="avatar" src="img/anime3.png" alt="...">
-                        <h5 class="title">{{user.fullName}}</h5>
+                        <h5 class="title">{{userInfo.name}}</h5>
                       </a>
-                      <p class="description">
-                        {{user.title}}
-                      </p>
+                      <h5 class="title">
+                        {{userInfo.email}}
+                      </h5>
                     </div>
                     <p></p>
                     <p class="card-description">
-                      {{user.description}}
+                      Points: {{userInfo.points}}
                     </p>
-                    <div slot="footer" class="button-container">
-                      <base-button icon round class="btn-facebook">
-                        <i class="fab fa-facebook"></i>
-                      </base-button>
-                      <base-button icon round class="btn-twitter">
-                        <i class="fab fa-twitter"></i>
-                      </base-button>
-                      <base-button icon round class="btn-google">
-                        <i class="fab fa-google-plus"></i>
-                      </base-button>
-                    </div>
                   </card>
                 </div>
               </div>
@@ -114,14 +103,6 @@
   import axios from 'axios'
 
   export default {
-    props: {
-      user: {
-        type: Object,
-        default: () => {
-          return {};
-        }
-      }
-    },
     components: {
       CollapseTransition,
       Modal
@@ -137,6 +118,7 @@
     },
     data() {
       return {
+        userInfo: [],
         showProfileModal: false,
         activeNotifications: false,
         showMenu: false,
@@ -145,6 +127,18 @@
       };
     },
     methods: {
+      getCurrentUserInfo(){
+        axios.get('/auth/user/'+localStorage.email)
+          .then((response)=>{
+            // handle success
+            this.userInfo = response.data
+          })
+          .catch((error)=>{
+            // handle error
+            console.log(error);
+          })
+
+      },
       profile(){
         this.showProfileModal = true
       },
@@ -181,7 +175,10 @@
         // });
         
       }
-    }
+    },
+    mounted() {
+      this.getCurrentUserInfo()
+    },
   };
 </script>
 <style>

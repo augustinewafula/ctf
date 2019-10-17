@@ -64,13 +64,10 @@ class AuthController extends Controller
         return response($response, 200);
     }
 
-    public function user()
+    public function user($email)
     {
-        $user = User::find(Auth::user()->id)->select('name','email','points');
+        $user = User::select('name','email','points','created_at')->where('email',$email)->first();
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $user
-        ]);
+        return response()->json($user);
     }
 }
